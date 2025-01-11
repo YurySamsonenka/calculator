@@ -1,45 +1,50 @@
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { ListItem, PipeItem } from '../types/data';
-import { FrameConfig, SizeConfig } from '../types/config';
+import { CatalogItem, ListItem, PipeItem } from '../types/data';
+import { ConfigItem, FrameConfig, SizeConfig } from '../types/config';
+import { calculateResults } from '../utils/calculateResults';
+import { CalculationResult } from '../types/calculator';
 
-type Inputs = {
-	selectMaterial: string
-	selectPipe: string
+export type InputPanelData = {
+	selectedMaterial: string
+	selectedPipe: string
 	width: number
 	length: number
 	strength: string
 }
 
 type Props = {
-	data: {
+	incomingData: {
 		lists: ListItem[]
 		pipes: PipeItem[]
 		frames: FrameConfig[]
 		sizes: SizeConfig[]
+		catalog: CatalogItem[]
+		config: ConfigItem[]
 	}
+	setFormData: (data: CalculationResult) => void
 }
 
 const STORAGE_KEY = 'calculatorFormData';
 
-export function InputPanel({ data }: Props) {
-	const { lists, pipes, frames, sizes } = data;
-	const { register, handleSubmit, setValue, formState: { errors } } = useForm<Inputs>();
+export function InputPanel({ incomingData, setFormData }: Props) {
+	const { lists, pipes, frames, sizes, catalog, config } = incomingData;
+	const { register, handleSubmit, setValue, formState: { errors } } = useForm<InputPanelData>();
 
 	useEffect(() => {
 		const savedData = sessionStorage.getItem(STORAGE_KEY);
 		if (savedData) {
 			const parsedData = JSON.parse(savedData);
-			setValue('selectMaterial', parsedData.selectMaterial);
-			setValue('selectPipe', parsedData.selectPipe);
+			setValue('selectedMaterial', parsedData.selectMaterial);
+			setValue('selectedPipe', parsedData.selectedPipe);
 			setValue('width', parsedData.width);
 			setValue('length', parsedData.length);
 			setValue('strength', parsedData.strength);
 		}
 	}, [setValue]);
 
-	const onSubmit = (data: Inputs) => {
-		console.log(data);
+	const onSubmit = (data: InputPanelData) => {
+		setFormData(calculateResults({ lists, pipes, frames, formData: data, config, catalog }));
 		sessionStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 	};
 
@@ -53,7 +58,7 @@ export function InputPanel({ data }: Props) {
 					Материал листа
 				</label>
 				<select className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" {...register(
-					'selectMaterial',
+					'selectedMaterial',
 					{ required: true })}>
 					<option value="">Выберите материал</option>
 					{lists.map(list => (
@@ -62,7 +67,7 @@ export function InputPanel({ data }: Props) {
 						</option>
 					))}
 				</select>
-				{errors.selectMaterial &&
+				{errors.selectedMaterial &&
           <span className={'text-red-500'}>Это поле обязательно для заполнения</span>}
 			</div>
 
@@ -70,7 +75,7 @@ export function InputPanel({ data }: Props) {
 				Тип трубы
 			</label>
 				<select className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" {...register(
-					'selectPipe',
+					'selectedPipe',
 					{ required: true })}>
 					<option value="">Выберите трубу</option>
 					{pipes.map(pipe => (
@@ -79,7 +84,7 @@ export function InputPanel({ data }: Props) {
 						</option>
 					))}
 				</select>
-				{errors.selectPipe &&
+				{errors.selectedPipe &&
           <span className={'text-red-500'}>Это поле обязательно для заполнения</span>}
 			</div>
 
@@ -139,3 +144,5 @@ export function InputPanel({ data }: Props) {
 		</form>
 	);
 }
+
+//TODO сделать ширину и длину через map

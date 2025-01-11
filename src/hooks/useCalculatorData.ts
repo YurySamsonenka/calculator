@@ -36,5 +36,5 @@ export const useCalculatorData = () => {
 	const frames = config.filter((item ): item is FrameConfig  => item.type === 'frame');
 	const sizes = config.filter((item): item is SizeConfig =>item.type === 'size');
 
-	return { lists, pipes, frames, sizes, loading, error };
+	return { lists, pipes, frames, sizes, catalog, config, loading, error };
 };
