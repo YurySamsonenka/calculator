@@ -35,7 +35,7 @@ export function InputPanel({ incomingData, setFormData }: Props) {
 		const savedData = sessionStorage.getItem(STORAGE_KEY);
 		if (savedData) {
 			const parsedData = JSON.parse(savedData);
-			setValue('selectedMaterial', parsedData.selectMaterial);
+			setValue('selectedMaterial', parsedData.selectedMaterial);
 			setValue('selectedPipe', parsedData.selectedPipe);
 			setValue('width', parsedData.width);
 			setValue('length', parsedData.length);
@@ -44,8 +44,19 @@ export function InputPanel({ incomingData, setFormData }: Props) {
 	}, [setValue]);
 
 	const onSubmit = (data: InputPanelData) => {
-		setFormData(calculateResults({ lists, pipes, frames, formData: data, config, catalog }));
-		sessionStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+		const calculatedResults = calculateResults({
+			lists,
+			pipes,
+			frames,
+			formData: data,
+			config,
+			catalog,
+		});
+
+		if (calculatedResults) {
+			setFormData(calculatedResults);
+			sessionStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+		}
 	};
 
 	const widthConfig = sizes.find(size => size.key === 'width');

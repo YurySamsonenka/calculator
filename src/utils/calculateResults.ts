@@ -20,25 +20,20 @@ export const calculateResults = (
 	const selectedPipe = pipes.find(pipe => pipe.name === formData.selectedPipe)!;
 	const selectedFrame = frames.find(frame => frame.name === formData.strength)!;
 
-	// Площадь изделия
 	const area = formData.length * formData.width;
 
-	// Расчет количества листов (учитывая что длина листа 1м)
 	const materialLength = 1;
 	const sheetsCount = Math.ceil(area / (selectedMaterial.width * materialLength));
 
-	// Расчет размера ячейки и количества трубы
 	const pipeWidthInMeters = selectedPipe.width / 1000;
 	const maxStep = selectedFrame.step;
 
-	// Расчет количества ячеек и их размера
 	const countEqualCellsInLength = Math.ceil(formData.length / maxStep);
 	const countEqualCellsInWidth = Math.ceil(formData.width / maxStep);
 
 	const cellLength = formData.length / countEqualCellsInLength;
 	const cellWidth = formData.width / countEqualCellsInWidth;
 
-	// Расчет длины трубы
 	const lengthLengthwisePipes = (countEqualCellsInWidth + 1) *
 		countEqualCellsInLength *
 		(cellLength + pipeWidthInMeters);
@@ -55,7 +50,10 @@ export const calculateResults = (
 	const fixData = catalog.find(c => c.type === 'fix') as FixItem;
 	const fixCount = Math.ceil(area * fixConfig.value);
 
-	// Формируем результат
+	const listTotalPrice = sheetsCount * selectedMaterial.price
+	const pipeTotalPrice = Math.ceil(totalPipeLength) * selectedPipe.price
+	const fixTotalPrice = Math.ceil(fixCount * fixData.price)
+
 	return {
 		area,
 		cellSize: {
@@ -68,26 +66,24 @@ export const calculateResults = (
 				unit: selectedMaterial.unit,
 				quantity: sheetsCount,
 				price: selectedMaterial.price,
-				total: sheetsCount * selectedMaterial.price,
+				total: listTotalPrice,
 			},
 			{
 				name: selectedPipe.name,
 				unit: selectedPipe.unit,
 				quantity: Math.ceil(totalPipeLength),
 				price: selectedPipe.price,
-				total: Math.ceil(totalPipeLength) * selectedPipe.price,
+				total: pipeTotalPrice,
 			},
 			{
 				name: fixData.name,
 				unit: fixData.unit,
 				quantity: fixCount,
 				price: fixData.price,
-				total: fixCount * fixData.price,
+				total: fixTotalPrice,
 			},
 		],
-		totalSum: sheetsCount * selectedMaterial.price +
-			Math.ceil(totalPipeLength) * selectedPipe.price +
-			fixCount * fixData.price,
+		totalSum: listTotalPrice + pipeTotalPrice + fixTotalPrice
 	};
 };
 
