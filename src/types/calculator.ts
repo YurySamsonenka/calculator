@@ -1,5 +1,9 @@
 export type CalculationResult = {
 	area: number;
+	cellCount: {
+		rows: number;
+		columns: number;
+	};
 	cellSize: {
 		width: number;
 		length: number;

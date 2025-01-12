@@ -52,6 +52,10 @@ export const calculateResults = (
 
 	return {
 		area,
+		cellCount: {
+			rows: countEqualCellsInWidth,
+			columns: countEqualCellsInLength,
+		},
 		cellSize: {
 			width: cellWidth,
 			length: cellLength,

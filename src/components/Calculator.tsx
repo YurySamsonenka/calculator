@@ -3,6 +3,7 @@ import { InputPanel } from './InputPanel';
 import { useState } from 'react';
 import { CalculationResult } from '../types/calculator';
 import ResultPanel from './ResultPanel';
+import TableGrid from './TableGrid';
 
 export const Calculator = () => {
 	const { lists, pipes, frames, sizes, catalog, config, loading, error } = useCalculatorData();
@@ -24,7 +25,12 @@ export const Calculator = () => {
 				<h2 className="text-xl font-bold mb-4">Результаты расчета</h2>
 				{result && <ResultPanel data={result} />}
 
-				{/*<FrameVisualization width={20} length={30} cellSize={{width: 4, length: 7}} pipeWidth={0.03}/>*/}
+				{result && <TableGrid
+          rows={result.cellCount.rows}
+          columns={result.cellCount.columns}
+          length={result.cellSize.length}
+          width={result.cellSize.width}
+        />}
 			</div>
 		</div>
 	);
