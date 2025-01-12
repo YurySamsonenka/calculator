@@ -22,12 +22,12 @@ type Props = {
 		catalog: CatalogItem[]
 		config: ConfigItem[]
 	}
-	setFormData: (data: CalculationResult) => void
+	setResult: (data: CalculationResult) => void
 }
 
 const STORAGE_KEY = 'calculatorFormData';
 
-export function InputPanel({ incomingData, setFormData }: Props) {
+export function InputPanel({ incomingData, setResult }: Props) {
 	const { lists, pipes, frames, sizes, catalog, config } = incomingData;
 	const { register, handleSubmit, setValue, formState: { errors } } = useForm<InputPanelData>();
 
@@ -54,7 +54,7 @@ export function InputPanel({ incomingData, setFormData }: Props) {
 		});
 
 		if (calculatedResults) {
-			setFormData(calculatedResults);
+			setResult(calculatedResults);
 			sessionStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 		}
 	};
@@ -62,7 +62,7 @@ export function InputPanel({ incomingData, setFormData }: Props) {
 	const widthConfig = sizes.find(size => size.key === 'width');
 	const lengthConfig = sizes.find(size => size.key === 'length');
 
-	const errorMessage = 'Обязательные данные'
+	const errorMessage = 'Обязательные данные';
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>

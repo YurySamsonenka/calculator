@@ -17,12 +17,14 @@ export const Calculator = () => {
 			<div className="w-1/2 p-4 bg-gray-100">
 				<h2 className="text-xl font-bold mb-4">Параметры конструкции</h2>
 				<InputPanel incomingData={{ lists, pipes, frames, sizes, catalog, config }}
-					setFormData={setResult} />
+					setResult={setResult}/>
 			</div>
 
 			<div className="w-1/2 p-4">
 				<h2 className="text-xl font-bold mb-4">Результаты расчета</h2>
 				{result && <ResultPanel data={result} />}
+
+				{/*<FrameVisualization width={20} length={30} cellSize={{width: 4, length: 7}} pipeWidth={0.03}/>*/}
 			</div>
 		</div>
 	);

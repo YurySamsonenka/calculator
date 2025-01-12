@@ -34,25 +34,21 @@ export const calculateResults = (
 	const cellLength = formData.length / countEqualCellsInLength;
 	const cellWidth = formData.width / countEqualCellsInWidth;
 
-	const lengthLengthwisePipes = (countEqualCellsInWidth + 1) *
-		countEqualCellsInLength *
-		(cellLength + pipeWidthInMeters);
-	const lengthWidthwisePipes = (countEqualCellsInLength + 1) *
-		countEqualCellsInWidth *
-		(cellWidth + pipeWidthInMeters);
+	const lengthLengthwisePipes = formData.length * (countEqualCellsInWidth + 1);
+	const lengthWidthwisePipes = (formData.width -
+		(pipeWidthInMeters * (countEqualCellsInLength + 1))) * (countEqualCellsInLength + 1);
+
 	const totalPipeLength = lengthLengthwisePipes + lengthWidthwisePipes;
 
-	// Расчет количества саморезов
 	const fixConfig = config.find(c =>
 		c.type === 'fix' && c.key === selectedMaterial.material,
 	) as FixConfig;
-	// console.log(fixConfig);
 	const fixData = catalog.find(c => c.type === 'fix') as FixItem;
 	const fixCount = Math.ceil(area * fixConfig.value);
 
-	const listTotalPrice = sheetsCount * selectedMaterial.price
-	const pipeTotalPrice = Math.ceil(totalPipeLength) * selectedPipe.price
-	const fixTotalPrice = Math.ceil(fixCount * fixData.price)
+	const listTotalPrice = sheetsCount * selectedMaterial.price;
+	const pipeTotalPrice = Math.ceil(totalPipeLength) * selectedPipe.price;
+	const fixTotalPrice = Math.ceil(fixCount * fixData.price);
 
 	return {
 		area,
@@ -83,6 +79,6 @@ export const calculateResults = (
 				total: fixTotalPrice,
 			},
 		],
-		totalSum: listTotalPrice + pipeTotalPrice + fixTotalPrice
+		totalSum: listTotalPrice + pipeTotalPrice + fixTotalPrice,
 	};
 };
