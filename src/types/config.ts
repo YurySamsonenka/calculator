@@ -26,5 +26,3 @@ export interface FixConfig extends BaseConfig {
 }
 
 export type ConfigItem = SizeConfig | FrameConfig | MaterialConfig | FixConfig;
-
-// TODO: вместо общих типов сделать точные

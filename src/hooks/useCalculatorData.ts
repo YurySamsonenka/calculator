@@ -12,8 +12,8 @@ export const useCalculatorData = () => {
 		const loadData = async () => {
 			try {
 				const [catalogResponse, configResponse] = await Promise.all([
-					fetch('data.json'),
-					fetch('config.json')
+					fetch(`${process.env.PUBLIC_URL}/data.json`),
+					fetch(`${process.env.PUBLIC_URL}/config.json`)
 				]);
 
 				const catalogData = await catalogResponse.json();

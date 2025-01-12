@@ -86,5 +86,3 @@ export const calculateResults = (
 		totalSum: listTotalPrice + pipeTotalPrice + fixTotalPrice
 	};
 };
-
-//TODO избавиться от знака !

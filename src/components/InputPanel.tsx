@@ -62,6 +62,8 @@ export function InputPanel({ incomingData, setFormData }: Props) {
 	const widthConfig = sizes.find(size => size.key === 'width');
 	const lengthConfig = sizes.find(size => size.key === 'length');
 
+	const errorMessage = 'Обязательные данные'
+
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<div className={'mb-3'}>
@@ -79,7 +81,7 @@ export function InputPanel({ incomingData, setFormData }: Props) {
 					))}
 				</select>
 				{errors.selectedMaterial &&
-          <span className={'text-red-500'}>Это поле обязательно для заполнения</span>}
+          <span className={'text-red-500'}>{errorMessage}</span>}
 			</div>
 
 			<div className={'mb-3'}><label className="block text-sm font-medium text-gray-700">
@@ -96,7 +98,7 @@ export function InputPanel({ incomingData, setFormData }: Props) {
 					))}
 				</select>
 				{errors.selectedPipe &&
-          <span className={'text-red-500'}>Это поле обязательно для заполнения</span>}
+          <span className={'text-red-500'}>{errorMessage}</span>}
 			</div>
 
 			<div className={'mb-3 flex gap-x-10'}>
@@ -112,7 +114,7 @@ export function InputPanel({ incomingData, setFormData }: Props) {
 						max={widthConfig?.max} step={widthConfig?.step} {...register('width',
 						{ required: true, max: widthConfig?.max, min: widthConfig?.min })} />
 					{errors.width &&
-            <span className={'text-red-500'}>Это поле обязательно для заполнения</span>}
+            <span className={'text-red-500'}>{errorMessage}</span>}
 				</div>
 
 				<div>
@@ -127,7 +129,7 @@ export function InputPanel({ incomingData, setFormData }: Props) {
 						max={lengthConfig?.max} step={lengthConfig?.step} {...register('length',
 						{ required: true, max: lengthConfig?.max, min: lengthConfig?.min })} />
 					{errors.length &&
-            <span className={'text-red-500'}>Это поле обязательно для заполнения</span>}
+            <span className={'text-red-500'}>{errorMessage}</span>}
 				</div>
 			</div>
 
@@ -147,13 +149,11 @@ export function InputPanel({ incomingData, setFormData }: Props) {
 					</div>
 				))}
 				{errors.strength &&
-          <span className={'text-red-500'}>Это поле обязательно для заполнения</span>}
+          <span className={'text-red-500'}>{errorMessage}</span>}
 			</div>
 
 			<input className={'bg-amber-400 hover:bg-amber-500 font-bold py-2 px-4 rounded cursor-pointer'}
-				type="submit" />
+				type="submit" value={'Расчет'} />
 		</form>
 	);
 }
-
-//TODO сделать ширину и длину через map
