@@ -3,7 +3,7 @@ import { InputPanel } from './InputPanel';
 import { useState } from 'react';
 import { CalculationResult } from '../types/calculator';
 import ResultPanel from './ResultPanel';
-import TableGrid from './TableGrid';
+import {TableGrid} from './TableGrid';
 
 export const Calculator = () => {
 	const { lists, pipes, frames, sizes, catalog, config, loading, error } = useCalculatorData();

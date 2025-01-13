@@ -1,43 +1,41 @@
 import React from 'react';
 
-interface TableGridProps {
-	rows: number;
-	columns: number;
-	length: number;
-	width: number;
+type TableGridProps = {
+  rows: number;
+  columns: number;
+  length: number;
+  width: number;
 }
 
-const TableGrid: React.FC<TableGridProps> = ({
-	rows,
-	columns,
-	length,
-	width
-}) => {
-	const gridStyle = {
-		gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
-		gridTemplateRows: `repeat(${rows}, minmax(0, 1fr))`,
-		aspectRatio: `${width}/${length}`,
-	};
+export const TableGrid = ({
+                            rows,
+                            columns,
+                            length,
+                            width
+                          }: TableGridProps) => {
+  const gridStyle = {
+    gridTemplateColumns: `repeat(${columns}, ${20 * (width / length)}px)`,
+    gridTemplateRows: `repeat(${rows}, ${20 * (length / width)}px)`,
+    aspectRatio: `${width}/${length}`
+  };
 
-	const cells = Array(rows * columns).fill(null);
+  const cells = Array(rows * columns).fill(null);
 
-	return (
-		<div className="flex-col items-center ">
-<h3 className={'font-bold p-2 al'}>Схема ячеек</h3>
+  return (
+    <div className="flex-col items-center ">
+      <h3 className={'font-bold p-2 al'}>Схема ячеек</h3>
 
-			<div
-				className="w-full border border-black grid"
-				style={gridStyle}
-			>
-				{cells.map((_, index) => (
-					<div
-						key={index}
-						className="border border-black w-full h-full"
-					/>
-				))}
-			</div>
-		</div>
-	);
+      <div
+        className="border grid w-full"
+        style={gridStyle}
+      >
+        {cells.map((_, index) => (
+          <div
+            key={index}
+            className="border border-black w-full h-full"
+          />
+        ))}
+      </div>
+    </div>
+  );
 };
-
-export default TableGrid;
