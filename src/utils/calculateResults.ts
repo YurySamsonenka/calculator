@@ -28,8 +28,8 @@ export const calculateResults = (
 	const pipeWidthInMeters = selectedPipe.width / 1000;
 	const maxStep = selectedFrame.step;
 
-	const countEqualCellsInLength = Math.ceil(formData.length / maxStep);
-	const countEqualCellsInWidth = Math.ceil(formData.width / maxStep);
+	const countEqualCellsInLength = Math.ceil((formData.length - pipeWidthInMeters) / maxStep);
+	const countEqualCellsInWidth = Math.ceil((formData.width - pipeWidthInMeters) / maxStep);
 
 	const cellLength = formData.length / countEqualCellsInLength;
 	const cellWidth = formData.width / countEqualCellsInWidth;
